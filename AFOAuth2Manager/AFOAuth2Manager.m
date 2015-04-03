@@ -116,7 +116,6 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
     self.requestSerializer = [[AFHTTPRequestSerializer alloc] init];
     
     [self.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Accept"];
-    [self.requestSerializer setValue:@"response_type" forHTTPHeaderField:@"code"];
     
     return self;
 }
@@ -218,9 +217,12 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
                                     failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    mutableParameters[@"client_id"] = self.clientID;
     if (!self.useHTTPBasicAuthentication) {
-        mutableParameters[@"client_id"] = self.clientID;
+        NSLog(@"use basic auth")        
         mutableParameters[@"client_secret"] = self.secret;
+    } else {
+        NSLog(@"do not use http basic auth");
     }
     parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
 
