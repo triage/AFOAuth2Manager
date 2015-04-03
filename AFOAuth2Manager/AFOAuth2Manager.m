@@ -113,7 +113,10 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
 
     self.useHTTPBasicAuthentication = YES;
 
-    [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    self.requestSerializer = [[AFHTTPRequestSerializer alloc] init];
+    
+    [self.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Accept"];
+    [self.requestSerializer setValue:@"response_type" forHTTPHeaderField:@"code"];
     
     return self;
 }
