@@ -217,12 +217,9 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
                                     failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
-    mutableParameters[@"client_id"] = self.clientID;
     if (!self.useHTTPBasicAuthentication) {
-        NSLog(@"use basic auth");
+        mutableParameters[@"client_id"] = self.clientID;
         mutableParameters[@"client_secret"] = self.secret;
-    } else {
-        NSLog(@"do not use http basic auth");
     }
     parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
 
